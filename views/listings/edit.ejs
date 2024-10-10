@@ -1,0 +1,122 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="row mt-3">
+  <div class="col-8 offset-2">
+    <h3>Edit your Listing</h3>
+    <form
+      method="POST"
+      action="/listings/<%= listing._id %>?_method=PUT"
+      novalidate
+      class="needs-validation"
+      enctype="multipart/form-data"
+    >
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          type="text"
+          name="listing[title]"
+          id="title"
+          class="form-control"
+          value="<%= listing.title %>"
+          required
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          name="listing[description]"
+          id="description"
+          class="form-control"
+        >
+<%= listing.description %></textarea
+        >
+      </div>
+
+      <div class="mb-3">
+        <label for="image" class="form-label">Upload New Image</label>
+        <input
+          type="file"
+          name="listing[image]"
+          id="image"
+          class="form-control"
+        />
+      </div>
+
+      <% if (listing.image && listing.image.url) { %>
+      <div class="mb-3">
+        <label class="form-label">Current Image</label>
+        <img
+          src="<%= listing.image.url %>"
+          alt="Current listing image"
+          class="img-thumbnail"
+          style="max-width: 300px"
+        />
+      </div>
+      <% } %>
+
+      <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <div class="input-group">
+          <span class="input-group-text">$</span>
+          <input
+            type="number"
+            name="listing[price]"
+            id="price"
+            class="form-control"
+            value="<%= listing.price %>"
+            required
+            min="0"
+          />
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label for="country" class="form-label">Country</label>
+        <input
+          type="text"
+          name="listing[country]"
+          id="country"
+          class="form-control"
+          value="<%= listing.country %>"
+          required
+        />
+      </div>
+
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input
+          type="text"
+          name="listing[location]"
+          id="location"
+          class="form-control"
+          value="<%= listing.location %>"
+          required
+        />
+      </div>
+
+      <button class="btn btn-dark edit-btn mb-3">Update Listing</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Client-side form validation
+  (() => {
+    "use strict";
+    const forms = document.querySelectorAll(".needs-validation");
+    Array.from(forms).forEach((form) => {
+      form.addEventListener(
+        "submit",
+        (event) => {
+          if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add("was-validated");
+        },
+        false
+      );
+    });
+  })();
+</script>
